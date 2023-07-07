@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  
+  accounts:
+    image: realdiv/accounts:latest
+    mem_limit: 700m
+    ports:
+      - "8585:8585"
+    networks:
+      - realdiv-network
+
+  loans:
+    image: realdiv/loans:latest
+    mem_limit: 700m
+    ports:
+      - "8787:8787"
+    networks:
+      - realdiv-network
+
+  cards:
+    image: realdiv/cards:latest
+    mem_limit: 700m
+    ports:
+      - "8686:8686"
+    networks:
+      - realdiv-network
+
+networks:
+  realdiv-network:
