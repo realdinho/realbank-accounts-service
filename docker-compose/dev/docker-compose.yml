@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+
+  configserver:
+    image: realbank/configserver:latest
+    mem_limit: 700m
+    ports:
+      - "8071:8071"
+    networks:
+      - realbank-network
+  
+  accounts:
+    image: realbank/accounts:latest
+    mem_limit: 700m
+    ports:
+      - "8585:8585"
+    networks:
+      - realbank-network
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+
+
+  loans:
+    image: realbank/loans:latest
+    mem_limit: 700m
+    ports:
+      - "8787:8787"
+    networks:
+      - realbank-network
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+
+  cards:
+    image: realbank/cards:latest
+    mem_limit: 700m
+    ports:
+      - "8686:8686"
+    networks:
+      - realbank-network
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+
+networks:
+  realbank-network:
