@@ -1,1 +1,1 @@
-# RealBank Configuration Server 
+# RealBank Accounts Microservice
