@@ -2,7 +2,7 @@
 FROM openjdk:17-slim as build
 
 # information about the maintainer of the image
-LABEL maintainer="Realdo Dias <realdo.dias3@mgail.com>"
+LABEL maintainer="Realdo Dias <rdias@realdiv.com>"
 
 # add application Jar file to the Docker container
 COPY target/*.jar app.jar
