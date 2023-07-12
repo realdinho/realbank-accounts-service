@@ -2,6 +2,9 @@ package com.realdiv.accounts.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +31,8 @@ import com.realdiv.accounts.service.client.LoanFeignClient;
 
 @RestController
 public class AccountController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
     
     @Autowired
     private AccountRepository accountRepository;
@@ -56,7 +61,9 @@ public class AccountController {
         @RequestHeader("realbank-correlation-id") String correlationId,
         @PathVariable int customerId
     ) {
+        logger.info("RealBank - getting account details of customer {}. Correlation ID: {}", customerId, correlationId);
         CustomerDetails customerDetails = this.getAccountDetailsByCustomerId(correlationId, customerId);
+        logger.info("RealBank - returning account number: {}", customerDetails.getAccount().getAccountNumber());
         return customerDetails;
     }
 
